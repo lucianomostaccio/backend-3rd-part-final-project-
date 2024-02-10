@@ -1,0 +1,21 @@
+<h1 class="pageTitle">My profile</h1>
+<section class="profileSection">
+    <ul class="userProfile">
+        <li class="profileItem">First name: {{first_name}}</li> <button></button>
+        <li class="profileItem">Last name: {{last_name}}</li>
+        <li class="profileItem">Email: {{email}}</li>
+        <li class="profileItem">Age: {{age}}</li>
+        <li class="profileItem">Role: {{role}}</li>
+        <li class="profileItem">Profile picture: <img class="profile_picture" src="{{fullImageUrl}}"></li>
+    </ul>
+</section>
+
+<a id="edit-profile-link" href="/edit">Edit my profile</a>
+</section>
+
+<form class="formButton" id="form-logout" action="/api/sessions/current" method="DELETE">
+  <button class="redButton" type="submit">Log out</button>
+</form>
+</section>
+
+<script src="/js/profile.js"></script>

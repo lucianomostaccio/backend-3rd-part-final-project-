@@ -1,0 +1,58 @@
+<h1>Register</h1>
+<form id="register-form" enctype="multipart/form-data">
+  <div class="form-group">
+    <label for="first_name">First name<span class="required">*</span></label>
+    <input
+      name="first_name"
+      type="text"
+      placeholder="input your first name"
+      required
+    /><br />
+  </div>
+  <div class="form-group">
+    <label for="last_name">Last Name</label>
+    <input
+      name="last_name"
+      type="text"
+      placeholder="input your last name"
+      min="0"
+      max="99"
+    /><br />
+  </div>
+  <div class="form-group">
+    <label for="age">Age</label>
+    <input name="age" type="number" placeholder="input your age" /><br />
+  </div>
+  <div class="form-group">
+    <label for="email">Email<span class="required">*</span></label>
+    <input
+      name="email"
+      type="email"
+      placeholder="input your email"
+      required
+    /><br />
+  </div>
+  <div class="form-group">
+    <label for="password">Password<span class="required">*</span></label>
+    <input
+      name="password"
+      type="password"
+      placeholder="input your password"
+      required
+    /><br />
+  </div>
+  <div class="form-group">
+    <label for="profile_picture">Profile Picture:</label>
+    <input
+      {{! action="/imgs"  }}
+      name="profile_picture"
+      type="file"
+      class="profile_picture"
+      onchange="previewImage()"
+    />
+    <div id="imagePreview" class="image-preview"></div>
+    <br />
+  </div>
+  <button class="greenButton" type="submit">Register!</button>
+</form>
+<script src="/js/register.js"></script>

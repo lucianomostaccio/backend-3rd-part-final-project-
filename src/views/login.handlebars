@@ -1,0 +1,17 @@
+<h1 class="pageTitle" id="login-title">Login</h1>
+<form id="loginForm">
+  <div class="form-group">
+    <label for="email">email<span class="required">*</span></label>
+    <input type="email" name="email" placeholder="input your email" /><br />
+  </div>
+  <div class="form-group">
+    <label for="password">password<span class="required">*</span></label>
+    <input name="password" type="password" placeholder="input your password" /><br />
+  </div>
+  <button class="greenButton" type="submit">Login!</button>
+</form>
+<p>Have you forgot your password?. <a href="/resetpass">RESET PASSWORD</a></p>
+<div>
+  <a href="/api/sessions/github"><button id="greenButtonGithub">Login with Github</button></a>
+</div>
+<script src="/js/login.js"></script>

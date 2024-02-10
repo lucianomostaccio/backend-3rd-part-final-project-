@@ -1,0 +1,195 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+}
+
+li {
+  list-style: none;
+}
+
+nav {
+  background-color: black;
+}
+
+nav ul {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  gap: 1em;
+}
+
+#navList {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  text-decoration: none;
+  list-style: none;
+  padding: 1rem;
+}
+
+.navListItem a {
+  color: white;
+}
+
+main {
+  padding: 20px;
+}
+
+h1 {
+  color: #333;
+}
+
+p {
+  margin-bottom: 10px;
+}
+
+#welcomeMessage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  color: rgb(0, 0, 143);
+}
+
+.pageTitle {
+  text-align: center;
+  padding: 1rem;
+  color: blue;
+}
+
+.userProfile {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
+  width: 100%;
+  align-content: center;
+  align-items: flex-start;
+}
+
+.productTitle,
+.profileItem {
+  padding: 0.5rem;
+}
+
+#login-title {
+  text-align: left;
+  margin: 0;
+  padding-left: 0;
+}
+
+.redButton {
+  background-color: #dc3545;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+}
+
+.redButton:hover {
+  background-color: #c82333;
+}
+
+.greenButton {
+  background-color: #28a745;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+  width: 10vw;
+}
+
+.greenButton:hover {
+  background-color: #218838;
+}
+
+#greenButtonGithub {
+  background-color: #28a745;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+}
+
+#greenButtonGithub:hover {
+  background-color: #218838;
+}
+
+.formButton {
+  display: flex;
+  justify-content: center;
+}
+
+#loginForm {
+  margin-bottom: 1rem;
+}
+
+#register-form {
+  margin-top: 1rem;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.required {
+  color: red;
+  margin-left: 5px;
+}
+
+input {
+  width: 30vw;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#emailNotEdit {
+  color: red;
+}
+
+#inputEmail {
+  cursor: not-allowed;
+}
+
+.profile_picture {
+  max-width: 10vw;
+  max-height: 15vh;
+  display: block;
+  margin-top: 1rem;
+}
+
+#products-edit {
+  align-content: flex-start;
+}
+
+#footer {
+  background-color: black;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+#footerList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#footerList li {
+  color: white;
+}

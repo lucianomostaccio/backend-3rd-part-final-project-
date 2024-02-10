@@ -1,0 +1,15 @@
+<!-- products.handlebars -->
+
+<section class="profileSection">
+    <ul class="userProfile" id="products-home">
+        <li class="profileItem">{{first_name}}</li>
+    </ul>
+</section>
+
+<h1 class="pageTitle">Products</h1>
+
+<ul class="productList">
+  {{#each products}}
+    <li class="productTitle">{{name}} - {{price}}</li>
+  {{/each}}
+</ul>
