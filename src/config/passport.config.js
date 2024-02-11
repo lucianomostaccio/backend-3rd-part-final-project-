@@ -1,6 +1,6 @@
 import passport from "passport";
 import local from "passport-local";
-import { usersManager } from "../dao/models/User.js";
+import { getDaoUsers } from "../daos/users/users.dao.js";
 import { isValidPassword } from "../utils/hashing.js";
 
 const LocalStrategy = local.Strategy;

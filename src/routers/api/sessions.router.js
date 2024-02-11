@@ -8,16 +8,6 @@ import { onlyLoggedInRest } from "../../middlewares/authorization.js";
 
 export const sessionsRouter = Router();
 
-sessionsRouter.get("/github", passport.authenticate("github",{scope: ['user:email']}),async (req, res) => {});
-
-sessionsRouter.get("/githubcallback", passport.authenticate("github", { 
-  // successRedirect: "/",
-  failureRedirect: "/login" 
-}), async (req, res) => {
-  req.session["user"] = req.user;
-  res.redirect("/");
-});
-
 sessionsRouter.post("/", passport.authenticate('login'), async (req, res) => {
   if(!req.user) return res.status(401).json({status:"error"});
   // @ts-ignore

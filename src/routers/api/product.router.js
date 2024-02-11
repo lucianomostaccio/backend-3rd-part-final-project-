@@ -1,8 +1,10 @@
-const express = require("express");
+import { Router } from "express";
+import express from 'express';
+import { errorsHandler } from '../../middlewares/errorsHandler.js';
+import ProductManager from '../dao/services/ProductManager.js';
+import ProductModel from '../dao/models/productModel.js';
 const router = express.Router();
-const ProductManager = require("../dao/services/ProductManager");
 const productManager = new ProductManager();
-const ProductModel = require("../dao/models/productModel.js")
 
 // Rutas para manejo de productos
 
@@ -13,7 +15,6 @@ router.get("/", async (req, res) => {
     const limit = Number(req.query.limit) || 10;
     const sort = req.query.sort === "desc" ? -1 : 1;
     const query = req.query.query || {};
-
 
     const options = {
       page,

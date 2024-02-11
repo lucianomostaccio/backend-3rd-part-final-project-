@@ -1,26 +1,20 @@
 //register
 // Import necessary modules
 import { Router } from "express";
-import { usersManager } from "../../daos/models/models/User.js";
+import { getDaoUsers } from "../../daos/users/users.dao.js";
 import { createHash } from "../../utils/hashing.js";
 import { onlyLoggedInRest } from "../../middlewares/authorization.js";
-import { extractFile } from "../../middlewares/multer.js";
 
 // Create the router
 export const usersRouter = Router();
 
 // Handle user registration (POST /api/users/)
-usersRouter.post("/", extractFile("profile_picture"), async (req, res) => {
+usersRouter.post("/", async (req, res) => {
   //put exact name assigned in form to picture field
   try {
     // Hash the password
     req.body.password = createHash(req.body.password);
 
-    console.log(req.file);
-    // Set the profile picture path based on the uploaded file
-    if (req.file) {
-      req.body.profile_picture = req.file.path;
-    }
     // Create a new user
     const user = await usersManager.create(req.body);
 
@@ -43,6 +37,22 @@ usersRouter.get("/current", onlyLoggedInRest, async (req, res) => {
     .lean();
   res.json({ status: "success", payload: usuario });
 });
+
+// try {
+//   const userDto = {
+//     // Assuming UserRepository.findOneByEmail returns necessary user data without password
+//     userId: req.user.userId,
+//     username: req.user.username,
+//     // Add other necessary fields
+//   };
+
+//   res.json({ status: "success", payload: userDto });
+// } catch (error) {
+//   console.error(error);
+//   res.status(500).json({ status: "error", error: "Internal server error" });
+// }
+// });
+
 
 // Update user password
 usersRouter.put("/resetpass", async function (req, res) {
@@ -79,7 +89,6 @@ usersRouter.put("/resetpass", async function (req, res) {
 // Update user profile information (PUT /api/users/)
 usersRouter.put(
   "/edit",
-  extractFile("profile_picture"),
   async function (req, res) {
     try {
       // Update user information
@@ -89,17 +98,11 @@ usersRouter.put(
         age: req.body.age,
       };
 
-      if (req.file) {
-        updateFields.profile_picture = req.file.path;
-      }
-
       const updatedUser = await usersManager.findOneAndUpdate(
         { email: req.body.email },
         { $set: updateFields },
         { new: true }
       );
-
-      console.log(req.body.profile_picture);
 
       // Handle case where user does not exist
       if (!updatedUser) {

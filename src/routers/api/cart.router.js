@@ -1,7 +1,9 @@
-const express = require("express");
-const router = express.Router();
-const CartManager = require("../dao/services/CartManager");
+import express from 'express';
+import CartManager from '../daos/services/CartManager.js';
+import ProductManager from '../daos/services/ProductManager.js';
+const productManager = new ProductManager();
 
+const router = express.Router();
 const cartManager = new CartManager();
 
 // Rutas para manejo de carts
@@ -124,5 +126,53 @@ router.put("/:cid/products/:pid", async (req, res) => {
     res.status(500).json({ status: "error", error: "Error interno del servidor" });
   }
 });
+
+router.post("/:cid/purchase", async (req, res) => {
+  try {
+    const cartId = req.params.cid;
+    const cart = await cartManager.getCartById(cartId);
+    const productsToPurchase = cart.products;
+    const failedProducts = [];
+
+    // Validar stock de productos
+    for (const product of productsToPurchase) {
+      const productStock = await productManager.getProductStockById(product.productId);
+      if (productStock < product.quantity) {
+        failedProducts.push(product.productId);
+      }
+    }
+
+    // Si hay productos sin stock, no se realiza la compra
+    if (failedProducts.length > 0) {
+      res.status(400).json({
+        status: "error",
+        message: "No se pudo realizar la compra",
+        failedProducts,
+      });
+      return;
+    }
+
+    // Restar stock de productos comprados
+    for (const product of productsToPurchase) {
+      await productManager.updateProductStockById(product.productId, product.quantity);
+    }
+
+    // Generar ticket
+    const ticket = await ticketManager.createTicket(cart);
+
+    // Eliminar del carrito los productos comprados
+    await cartManager.removeAllProductsFromCart(cartId);
+
+    res.status(200).json({
+      status: "success",
+      message: "Compra realizada exitosamente",
+      ticket,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ status: "error", error: "Error interno del servidor" });
+  }
+});
+
 
 module.exports = router;
