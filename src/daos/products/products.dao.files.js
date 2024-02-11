@@ -18,13 +18,13 @@ class Product {
   get price() { return this.#price }
 
   set name(value) {
-    if (!value) throw new Error('el name es obligatorio')
+    if (!value) throw new Error('name is mandatory')
     this.#name = value
   }
 
   set price(value) {
-    if (!value) throw new Error('el price es obligatorio')
-    if (value <= 0) throw new Error('el price debe ser positivo')
+    if (!value) throw new Error('price is mandatory')
+    if (value <= 0) throw new Error('price must greater than 0')
     this.#price = value
   }
 

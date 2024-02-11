@@ -11,7 +11,7 @@ const ticketSchema = new mongoose.Schema({
     unique: true,
     required: true,
   },
-  purchase_datetime: {
+  orderDate: {
     type: Date,
     default: Date.now,
     required: true,
@@ -26,6 +26,6 @@ const ticketSchema = new mongoose.Schema({
   },
 });
 
-const Ticket = mongoose.model("Ticket", ticketSchema);
+const OrderModel = mongoose.model("Order", orderSchema);
 
-module.exports = Ticket;
+export default OrderModel;
