@@ -36,7 +36,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // routers
-app.use("/", webRouter);
 app.use("/api/", apiRouter);
 app.use(cookieParser());
 
