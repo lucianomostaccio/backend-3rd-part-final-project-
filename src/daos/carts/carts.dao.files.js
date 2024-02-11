@@ -82,6 +82,6 @@ class CartsDaoFiles {
 const cartsDaoFiles = new CartsDaoFiles('./db/carts.json');
 console.log('Using files persistence for carts.');
 
-export async function getCartsDaoFiles() {
+export async function getDaoFiles() {
   return cartsDaoFiles;
 }

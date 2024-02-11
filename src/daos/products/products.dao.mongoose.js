@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import { randomUUID } from 'node:crypto'
-import mongoosePaginate from 'mongoose-paginate-v2'
+import { randomUUID } from "node:crypto";
+import mongoosePaginate from "mongoose-paginate-v2";
 
 const productCollection = "products";
 
@@ -62,12 +62,12 @@ class ProductsDaoMongoose {
 }
 
 let productsDaoMongoose;
-console.log('using mongodb persistency');
+console.log("using mongodb persistence");
 
 export async function getDaoMongoose() {
   if (!productsDaoMongoose) {
     await connect(MONGODB_CNX_STR);
-    console.log('connected to mongodb');
+    console.log("connected to mongodb");
     productsDaoMongoose = new ProductsDaoMongoose();
   }
   return productsDaoMongoose;

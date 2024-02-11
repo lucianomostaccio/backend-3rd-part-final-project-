@@ -94,6 +94,6 @@ class OrdersDaoFiles {
 const ordersDaoFiles = new OrdersDaoFiles('./db/orders.json');
 console.log('Using files persistence for orders.');
 
-export async function getOrdersDaoFiles() {
+export async function getDaoFiles() {
   return ordersDaoFiles;
 }

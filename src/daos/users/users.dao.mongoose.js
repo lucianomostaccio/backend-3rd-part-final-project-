@@ -32,44 +32,44 @@ const schema = new mongoose.Schema(
 export const usersManager = mongoose.model(collection, schema);
 
 class UsersDaoMongoose {
-    async create(data) {
-      const juguete = await usersModel.create(data)
-      return juguete.toObject()
-    }
-  
-    async readOne(query) {
-      return await usersModel.findOne(query).lean()
-    }
-  
-    async readMany(query) {
-      return await usersModel.find(query).lean()
-    }
-  
-    async updateOne(query, data) {
-      throw new Error('NOT IMPLEMENTED')
-    }
-  
-    async updateMany(query, data) {
-      throw new Error('NOT IMPLEMENTED')
-    }
-  
-    async deleteOne(query) {
-      return await usersModel.findOneAndDelete(query).lean()
-    }
-  
-    async deleteMany(query) {
-      throw new Error('NOT IMPLEMENTED')
-    }
+  async create(data) {
+    const juguete = await usersModel.create(data);
+    return juguete.toObject();
   }
-  
-  let productsDaoMongoose
-  console.log('using mongodb persistency')
-  
-  export async function getDaoMongoose() {
-    if (!productsDaoMongoose) {
-      await connect(MONGODB_CNX_STR)
-      console.log('connected to mongodb')
-      productsDaoMongoose = new UsersDaoMongoose()
-    }
-    return productsDaoMongoose
+
+  async readOne(query) {
+    return await usersModel.findOne(query).lean();
   }
+
+  async readMany(query) {
+    return await usersModel.find(query).lean();
+  }
+
+  async updateOne(query, data) {
+    throw new Error("NOT IMPLEMENTED");
+  }
+
+  async updateMany(query, data) {
+    throw new Error("NOT IMPLEMENTED");
+  }
+
+  async deleteOne(query) {
+    return await usersModel.findOneAndDelete(query).lean();
+  }
+
+  async deleteMany(query) {
+    throw new Error("NOT IMPLEMENTED");
+  }
+}
+
+let productsDaoMongoose;
+console.log("using mongodb persistence");
+
+export async function getDaoMongoose() {
+  if (!productsDaoMongoose) {
+    await connect(MONGODB_CNX_STR);
+    console.log("connected to mongodb");
+    productsDaoMongoose = new UsersDaoMongoose();
+  }
+  return productsDaoMongoose;
+}
