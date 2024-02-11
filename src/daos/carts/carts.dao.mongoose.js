@@ -13,7 +13,7 @@ const cartSchema = new mongoose.Schema({
   ],
 });
 
-const CartModel = moongose.model(cartCollection, cartSchema);
+const CartModel = mongoose.model(cartCollection, cartSchema);
 
 
 module.exports = CartModel;

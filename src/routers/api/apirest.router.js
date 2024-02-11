@@ -6,6 +6,8 @@ import { errorsHandler } from "../../middlewares/errorsHandler.js";
 
 export const apiRouter = Router();
 
+apiRouter.use(urlencoded({ extended: true }))
+
 apiRouter.use("/sessions", sessionsRouter);
 apiRouter.use("/users", usersRouter);
 

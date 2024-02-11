@@ -8,3 +8,4 @@ export const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 export const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 export const DEFAULT_USER_AVATAR_PATH = process.env.DEFAULT_USER_AVATAR_PATH;
 export const EXECUTION_MODE = "online";
+// export const EXECUTION_MODE = 'offline'
