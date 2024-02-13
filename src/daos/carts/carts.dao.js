@@ -1,13 +1,30 @@
+import { connect, model } from "mongoose";
 import { EXECUTION_MODE } from "../../config/config.js";
+import { MONGODB_CNX_STR } from "../../config/config.js";
 
-let getDaoCarts;
+import { CartsDaoMongoose } from "./mongoose/carts.dao.mongoose.js";
+import { CartsDaoFiles } from "./files/carts.dao.files.js";
+import { cartsSchema } from "./mongoose/carts.model.mongoose.js";
+const PATH_CARTS_FILES = "./files/carts.dao.files.js";
+
+let daoCarts;
 
 if (EXECUTION_MODE === "online") {
-  const { getDaoMongoose } = await import("./carts.dao.mongoose.js");
-  getDaoCarts = getDaoMongoose;
+  if (!daoCarts) {
+    const cartsModel = model("carts", cartsSchema);
+    daoCarts = new CartsDaoMongoose(cartsModel);
+    console.log("using mongodb persistence - carts");
+  }
+  // const { getDaoMongoose } = await import(
+  //   "./mongoose/carts.model.mongoose.js"
+  // );
+  // getDaoCarts = getDaoMongoose;
 } else {
-  const { getDaoFiles } = await import("./carts.dao.files.js");
-  getDaoCarts = getDaoFiles;
+  daoCarts = new CartsDaoFiles(PATH_CARTS_FILES);
+  console.log("using files persistence - carts");
+  // getDaoCarts = getDaoFiles;
 }
 
-export { getDaoCarts };
+export function getDaoCarts() {
+  return daoCarts;
+}

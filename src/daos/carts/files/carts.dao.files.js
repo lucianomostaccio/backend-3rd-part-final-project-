@@ -1,35 +1,14 @@
-import { randomUUID } from 'node:crypto';
+import { matches } from "../../utils.js";
 import fs from 'fs/promises';
 
-class Cart {
-  #_id
-  #products
-
-  constructor({ _id = randomUUID(), products = [] }) {
-    this.#_id = _id;
-    this.#products = products;
-  }
-
-  get _id() { return this.#_id; }
-  get products() { return this.#products; }
-
-  toObject() {
-    return {
-      _id: this.#_id,
-      products: this.#products,
-    };
-  }
-}
-
-class CartsDaoFiles {
+export class CartsDaoFiles {
   constructor(path) {
     this.path = path;
   }
 
   async #readCarts() {
     try {
-      const data = await fs.readFile(this.path, 'utf-8');
-      return JSON.parse(data);
+      return JSON.parse(await fs.readFile(this.path, 'utf-8'););
     } catch (error) {
       console.error("Error reading carts from file:", error);
       return [];
@@ -44,22 +23,24 @@ class CartsDaoFiles {
     }
   }
 
-  async create(data) {
-    const cart = new Cart(data);
+  async create(dataPojo) {
     const carts = await this.#readCarts();
-    carts.push(cart.toObject());
+    carts.push(cartPojo);
     await this.#writeCarts(carts);
-    return cart.toObject();
+    return cartPojo;
   }
 
   async readOne(query) {
     const carts = await this.#readCarts();
-    return carts.find(cart => cart._id === query._id);
+    const searched = carts.find(matches(query));
+    return searched;
+    // return carts.find(cart => cart._id === query._id);
   }
 
   async readMany(query) {
     const carts = await this.#readCarts();
-    return carts;
+    const manySearched = carts.filter(matches(query));
+    return manySearched;
   }
 
   async updateOne(query, data) {
@@ -77,11 +58,4 @@ class CartsDaoFiles {
   async deleteMany(query) {
     throw new Error('NOT IMPLEMENTED');
   }
-}
-
-const cartsDaoFiles = new CartsDaoFiles('./db/carts.json');
-console.log('Using files persistence for carts.');
-
-export async function getDaoFiles() {
-  return cartsDaoFiles;
 }

@@ -1,38 +1,7 @@
-//ver
-
-import { randomUUID } from "node:crypto";
 import fs from "fs/promises";
-import { matches } from "../utils.js";
+import { matches } from "../../utils.js";
 
-class User {
-  #_id;
-  #name;
-  constructor({ _id = randomUUID(), name }) {
-    this.#_id = _id;
-    this.name = name;
-  }
-
-  get _id() {
-    return this.#_id;
-  }
-  get name() {
-    return this.#name;
-  }
-
-  set name(value) {
-    if (!value) throw new Error("name is mandatory");
-    this.#name = value;
-  }
-
-  toObject() {
-    return {
-      _id: this.#_id,
-      name: this.#name,
-    };
-  }
-}
-
-class UsersDaoFiles {
+export class UsersDaoFiles {
   constructor(path) {
     this.path = path;
   }
@@ -45,12 +14,11 @@ class UsersDaoFiles {
     await fs.writeFile(this.path, JSON.stringify(users, null, 2));
   }
 
-  async create(data) {
-    const user = new User(data);
+  async create(userPojo) {
     const users = await this.#readUsers();
-    users.push(user.toObject());
+    users.push(userPojo);
     await this.#writeUsers(users);
-    return user.toObject();
+    return userPojo
   }
 
   async readOne(query) {
@@ -89,9 +57,3 @@ class UsersDaoFiles {
   }
 }
 
-const usersDaoFiles = new UsersDaoFiles("./db/users.json");
-console.log("using files persistence");
-
-export async function getDaoFiles() {
-  return usersDaoFiles;
-}
