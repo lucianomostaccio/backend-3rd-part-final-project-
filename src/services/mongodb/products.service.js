@@ -1,10 +1,13 @@
-const ProductModel = require("../models/productModel.js");
+import { getDaoProducts } from "../../daos/products/products.dao.js";
+import { Product } from "../../models/products.model.js";
 
-class ProductManager {
+const productsDao = getDaoProducts();
+
+class ProductsService {
   //load products from db
   async loadProductsFromDatabase() {
     try {
-      this.products = await ProductModel.find();
+      this.products = await Product.find();
     } catch (err) {
       console.error(
         "Error al cargar los productos desde la base de datos:",
@@ -16,7 +19,7 @@ class ProductManager {
   //save all products in DB
   async saveProductsToDatabase() {
     try {
-      await ProductModel.insertMany(this.products);
+      await Product.insertMany(this.products);
       console.log("Productos guardados en la base de datos correctamente.");
     } catch (err) {
       console.error("Error al guardar los productos en la base de datos:", err);
@@ -27,24 +30,28 @@ class ProductManager {
   async getProducts(options, searchQuery, sort) {
     try {
       // @ts-ignore
-      const products = await ProductModel.paginate(searchQuery, {
+      const products = await Product.paginate(searchQuery, {
         ...options,
         sort: sort,
       });
-      console.log(products)
+      console.log(products);
       return products;
     } catch (err) {
-      console.error("Error al obtener los productos desde la base de datos:", err);
+      console.error(
+        "Error al obtener los productos desde la base de datos:",
+        err
+      );
       return [];
     }
   }
 
   //add product to DB
   async addProduct(productData) {
-    const newProduct = new ProductModel(productData);
+    const newProduct = new Product(productData);
 
     try {
-      await newProduct.save();
+      savedProduct = await productsDao.create(newProduct.toPOJO());
+      return savedProduct;
       console.log(
         "Se acaba de agregar el producto en la base de datos:",
         newProduct
@@ -57,7 +64,7 @@ class ProductManager {
   //traer producto por id
   async getProductById(_id) {
     try {
-      return await ProductModel.findById(_id).lean();
+      return await Product.findById(_id).lean();
     } catch (err) {
       console.error(
         "Error al obtener el producto desde la base de datos:",
@@ -70,7 +77,7 @@ class ProductManager {
   //updatear producto obtenido con id en el paso anterior
   async updateProduct(_id, updatedProduct) {
     try {
-      const productToUpdate = await ProductModel.findById(_id);
+      const productToUpdate = await Product.findById(_id);
 
       if (productToUpdate) {
         // Actualizar el producto utilizando el método save de Mongoose
@@ -89,7 +96,7 @@ class ProductManager {
   //borrar producto por id
   async deleteProduct(_id) {
     try {
-      const deletedProduct = await ProductModel.findByIdAndDelete(_id);
+      const deletedProduct = await Product.findByIdAndDelete(_id);
 
       if (deletedProduct) {
         console.log("Producto eliminado:", deletedProduct);
@@ -102,4 +109,4 @@ class ProductManager {
   }
 }
 
-module.exports = ProductManager;
+export const productsService = new ProductsService();

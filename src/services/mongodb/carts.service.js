@@ -1,10 +1,10 @@
-const CartModel = require("../models/cartModel.js");
+import { Cart } from "../../models/carts.model.js";
 
-class CartManager {
+class CartsService {
   // Cargar carts desde la base de datos
   async loadCartsFromDatabase() {
     try {
-      this.carts = await CartModel.find();
+      this.carts = await Cart.find();
     } catch (err) {
       console.error("Error al cargar los carts desde la base de datos:", err);
     }
@@ -13,7 +13,7 @@ class CartManager {
   // Guardar todos los carts en la base de datos
   async saveCartsToDatabase() {
     try {
-      await CartModel.insertMany(this.carts);
+      await Cart.insertMany(this.carts);
       console.log("Carts guardados en la base de datos correctamente.");
     } catch (err) {
       console.error("Error al guardar los carts en la base de datos:", err);
@@ -22,7 +22,7 @@ class CartManager {
 
   // Agregar cart a la base de datos
   async addCart(cartData) {
-    const newCart = new CartModel({
+    const newCart = new Cart({
       products: [],
     });
 
@@ -37,7 +37,7 @@ class CartManager {
   // Obtener todos los carts
   async getCarts() {
     try {
-      return await CartModel.find();
+      return await Cart.find();
     } catch (err) {
       console.error("Error al obtener los carts desde la base de datos:", err);
       return [];
@@ -47,7 +47,7 @@ class CartManager {
   // Obtener cart por ID
   async getCartById(_id) {
     try {
-      return await CartModel.findById(_id);
+      return await Cart.findById(_id);
     } catch (err) {
       console.error("Error al obtener el cart desde la base de datos:", err);
       return null;
@@ -57,7 +57,7 @@ class CartManager {
   // Agregar producto a un cart específico
   async addProductToCart(cartId, productId) {
     try {
-      const cartToUpdate = await CartModel.findById(cartId);
+      const cartToUpdate = await Cart.findById(cartId);
 
       if (cartToUpdate) {
         const productIndex = cartToUpdate.products.findIndex(
@@ -87,7 +87,7 @@ class CartManager {
 
   async updateCart(cartId, products) {
     try {
-      const cartToUpdate = await CartModel.findById(cartId);
+      const cartToUpdate = await Cart.findById(cartId);
 
       if (cartToUpdate) {
         // Limpiar el carrito actual y agregar los nuevos productos
@@ -106,7 +106,7 @@ class CartManager {
 
   async removeAllProductsFromCart(cartId) {
     try {
-      const cartToUpdate = await CartModel.findById(cartId);
+      const cartToUpdate = await Cart.findById(cartId);
 
       if (cartToUpdate) {
         // Limpiar todos los productos del carrito
@@ -114,24 +114,32 @@ class CartManager {
         cartToUpdate.products = [];
 
         await cartToUpdate.save(); // Actualizar el carrito en la base de datos con los cambios
-        console.log("Todos los productos eliminados del carrito:", cartToUpdate);
+        console.log(
+          "Todos los productos eliminados del carrito:",
+          cartToUpdate
+        );
       } else {
         console.error("Carrito no encontrado para eliminar productos");
       }
     } catch (error) {
-      console.error("Error al eliminar todos los productos del carrito:", error);
+      console.error(
+        "Error al eliminar todos los productos del carrito:",
+        error
+      );
       throw error;
     }
   }
 
   async removeProductFromCart(cartId, productId) {
     try {
-      const cartToUpdate = await CartModel.findById(cartId);
+      const cartToUpdate = await Cart.findById(cartId);
 
       if (cartToUpdate) {
         // Filtrar los productos y eliminar el producto específico
         // @ts-ignore
-        cartToUpdate.products = cartToUpdate.products.filter(product => product._id.toString() !== productId);
+        cartToUpdate.products = cartToUpdate.products.filter(
+          (product) => product._id.toString() !== productId
+        );
 
         await cartToUpdate.save(); // Actualizar el carrito en la base de datos con los cambios
         console.log("Producto eliminado del carrito:", cartToUpdate);
@@ -146,36 +154,54 @@ class CartManager {
 
   async updateProductQuantity(cartId, productId, quantity) {
     try {
-      const cartToUpdate = await CartModel.findById(cartId);
+      const cartToUpdate = await Cart.findById(cartId);
 
       if (cartToUpdate) {
         // Encontrar el producto específico y actualizar la cantidad
-        const productToUpdate = cartToUpdate.products.find(product => product._id.toString() === productId);
+        const productToUpdate = cartToUpdate.products.find(
+          (product) => product._id.toString() === productId
+        );
 
         if (productToUpdate) {
           productToUpdate.quantity = quantity;
           await cartToUpdate.save(); // Actualizar el carrito en la base de datos con los cambios
-          console.log("Cantidad de producto actualizada en el carrito:", cartToUpdate);
+          console.log(
+            "Cantidad de producto actualizada en el carrito:",
+            cartToUpdate
+          );
         } else {
-          console.error("Producto no encontrado en el carrito para actualizar la cantidad");
+          console.error(
+            "Producto no encontrado en el carrito para actualizar la cantidad"
+          );
         }
       } else {
-        console.error("Carrito no encontrado para actualizar la cantidad del producto");
+        console.error(
+          "Carrito no encontrado para actualizar la cantidad del producto"
+        );
       }
     } catch (error) {
-      console.error("Error al actualizar la cantidad del producto en el carrito:", error);
+      console.error(
+        "Error al actualizar la cantidad del producto en el carrito:",
+        error
+      );
       throw error;
     }
   }
 
   async getPopulatedCart(cartId) {
     try {
-      return await CartModel.findById(cartId).populate('products._id', 'title price'); 
+      return await Cart.findById(cartId).populate(
+        "products._id",
+        "title price"
+      );
     } catch (error) {
-      console.error("Error al obtener el carrito con productos completos:", error);
+      console.error(
+        "Error al obtener el carrito con productos completos:",
+        error
+      );
       throw error;
     }
   }
 }
 
-module.exports = CartManager;
+export const cartsService = new CartsService();

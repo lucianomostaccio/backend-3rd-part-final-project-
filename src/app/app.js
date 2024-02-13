@@ -16,8 +16,6 @@ const __dirname = dirname(__filename);
 export const app = express();
 
 // middlewares
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "static"))); //specify static folder
 app.use(sessions);
 initializePassport();

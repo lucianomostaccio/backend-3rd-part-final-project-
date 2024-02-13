@@ -1,4 +1,4 @@
-import { productsService } from '../services/products.service.js'
+import { productsService } from '../services/mongodb/products.service.js'
 
 export async function getController(req, res, next) {
   try {
@@ -18,3 +18,22 @@ export async function postController(req, res, next) {
     next(error)
   }
 }
+
+export async function deleteController(req, res, next) {
+  try {
+    const product = await productsService.deleteProduct(req.body)
+    res.delete(product)
+  } catch (error) {
+    next(error)
+  }
+}
+
+
+// export async function putController(req, res, next) {
+//   try {
+//     const product = await productsService.updateProduct(req.body)
+//     res.delete(product)
+//   } catch (error) {
+//     next(error)
+//   }
+// }
