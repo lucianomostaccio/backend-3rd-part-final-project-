@@ -8,7 +8,7 @@ export class CartsDaoFiles {
 
   async #readCarts() {
     try {
-      return JSON.parse(await fs.readFile(this.path, 'utf-8'););
+      return JSON.parse(await fs.readFile(this.path, 'utf-8'));
     } catch (error) {
       console.error("Error reading carts from file:", error);
       return [];
@@ -23,7 +23,7 @@ export class CartsDaoFiles {
     }
   }
 
-  async create(dataPojo) {
+  async create(cartPojo) {
     const carts = await this.#readCarts();
     carts.push(cartPojo);
     await this.#writeCarts(carts);
@@ -44,18 +44,45 @@ export class CartsDaoFiles {
   }
 
   async updateOne(query, data) {
-    throw new Error('NOT IMPLEMENTED');
+    const carts = await this.#readCarts();
+    const index = carts.findIndex(matches(query));
+    if (index !== -1) {
+      carts[index] = { ...carts[index], ...data };
+      await this.#writeCarts(carts);
+      return carts[index];
+    }
+    throw new Error("Cart not found");
   }
 
   async updateMany(query, data) {
-    throw new Error('NOT IMPLEMENTED');
+    const carts = await this.#readCarts();
+    const updatedCarts = carts.map(cart => {
+      if (matches(query)(cart)) {
+        return { ...cart, ...data };
+      }
+      return cart;
+    });
+    await this.#writeCarts(updatedCarts);
+    return updatedCarts;
   }
 
+
   async deleteOne(query) {
-    throw new Error('NOT IMPLEMENTED');
+    const carts = await this.#readCarts();
+    const index = carts.findIndex(matches(query));
+    if (index !== -1) {
+      const deletedCart = carts.splice(index, 1)[0];
+      await this.#writeCarts(carts);
+      return deletedCart;
+    }
+    throw new Error("Cart not found");
   }
 
   async deleteMany(query) {
-    throw new Error('NOT IMPLEMENTED');
+    const carts = await this.#readCarts();
+    const remainingCarts = carts.filter(cart => !matches(query)(cart));
+    const deletedCarts = carts.filter(cart => matches(query)(cart));
+    await this.#writeCarts(remainingCarts);
+    return deletedCarts;
   }
 }

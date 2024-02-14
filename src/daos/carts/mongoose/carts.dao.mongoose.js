@@ -20,19 +20,35 @@ export class CartsDaoMongoose {
   }
 
   async updateOne(query, data) {
-    throw new Error("NOT IMPLEMENTED");
+    const updatedCart = await this.cartsModel.findOneAndUpdate(query, data, { new: true }).lean();
+    if (!updatedCart) {
+      throw new Error("Cart not found");
+    }
+    return toPOJO(updatedCart);
   }
 
   async updateMany(query, data) {
-    throw new Error("NOT IMPLEMENTED");
+    const updatedCarts = await this.cartsModel.updateMany(query, data, { new: true }).lean();
+    if (!updatedCarts) {
+      throw new Error("No carts found to update");
+    }
+    return updatedCarts;
   }
 
   async deleteOne(query) {
-    throw new Error("NOT IMPLEMENTED");
+    const deletedCart = await this.cartsModel.findOneAndDelete(query).lean();
+    if (!deletedCart) {
+      throw new Error("Cart not found");
+    }
+    return toPOJO(deletedCart);
   }
 
   async deleteMany(query) {
-    throw new Error("NOT IMPLEMENTED");
+    const deletedCarts = await this.cartsModel.deleteMany(query).lean();
+    if (!deletedCarts) {
+      throw new Error("No carts found to delete");
+    }
+    return deletedCarts;
   }
 }
 

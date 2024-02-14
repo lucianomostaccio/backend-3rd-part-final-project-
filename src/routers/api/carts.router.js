@@ -1,7 +1,17 @@
 import { Router } from "express";
-import { postController } from '../../controllers/carts.controller.js'
+import {
+  postController,
+  getController,
+  putController,
+  deleteController,
+} from "../../controllers/carts.controller.js";
 
 export const cartsRouter = Router();
 
 cartsRouter.post("/", postController);
-// cartsRouter.post("/:cid/carts", postCartsController);
+
+cartsRouter.get("/:cartId", getController);
+
+cartsRouter.put("/:cartId", putController);
+
+cartsRouter.delete("/:cartId", deleteController);

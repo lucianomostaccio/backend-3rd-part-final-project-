@@ -21,8 +21,6 @@ sessionsRouter.post("/", passport.authenticate('login'), async (req, res) => {
     // @ts-ignore
     age: req.user.age,
     // @ts-ignore
-    profile_picture: req.user.profile_picture,
-    // @ts-ignore
     role: req.user.email === ADMIN_EMAIL && req.user.password === ADMIN_PASSWORD ? "admin" : "user"
   };
 

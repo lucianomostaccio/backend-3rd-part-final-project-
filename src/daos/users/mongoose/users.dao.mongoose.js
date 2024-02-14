@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import { toPOJO } from "../../utils.js";
 
 export class UsersDaoMongoose {
   constructor(usersModel) {
@@ -6,7 +6,7 @@ export class UsersDaoMongoose {
   }
 
   async create(data) {
-    const user = await usersModel.create(data);
+    const user = await this.usersModel.create(data);
     return toPOJO(user);
   }
 

@@ -34,18 +34,48 @@ export class ProductsDaoFiles {
   }
 
   async updateOne(query, data) {
-    throw new Error("NOT IMPLEMENTED");
+    const products = await this.#readProducts();
+    const index = products.findIndex(matches(query));
+    if (index !== -1) {
+      products[index] = { ...products[index], ...data };
+      await this.#writeProducts(products);
+      return products[index];
+    }
+    throw new Error("Product not found");
   }
 
   async updateMany(query, data) {
-    throw new Error("NOT IMPLEMENTED");
+    const products = await this.#readProducts();
+    const updatedProducts = products.map((product) => {
+      if (matches(query)(product)) {
+        return { ...product, ...data };
+      }
+      return product;
+    });
+    await this.#writeProducts(updatedProducts);
+    return updatedProducts;
   }
 
   async deleteOne(query) {
-    throw new Error("NOT IMPLEMENTED");
+    const products = await this.#readProducts();
+    const index = products.findIndex(matches(query));
+    if (index !== -1) {
+      const deletedProduct = products.splice(index, 1)[0];
+      await this.#writeProducts(products);
+      return deletedProduct;
+    }
+    throw new Error("Product not found");
   }
 
   async deleteMany(query) {
-    throw new Error("NOT IMPLEMENTED");
+    const products = await this.#readProducts();
+    const remainingProducts = products.filter(
+      (product) => !matches(query)(product)
+    );
+    const deletedProducts = products.filter((product) =>
+      matches(query)(product)
+    );
+    await this.#writeProducts(remainingProducts);
+    return deletedProducts;
   }
 }

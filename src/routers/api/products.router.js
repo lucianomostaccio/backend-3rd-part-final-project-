@@ -1,13 +1,13 @@
 import { Router } from 'express'
-import { getController, postController, deleteController } from '../../controllers/products.controller.js'
+import { getController, postController, deleteController, putController } from '../../controllers/products.controller.js'
 
 
 export const productsRouter = Router()
 
 productsRouter.get('/', getController)
 productsRouter.post('/', postController)
-productsRouter.delete('/', deleteController)
-// productsRouter.put('/', putController)
+productsRouter.put('/:pid', putController)
+productsRouter.delete('/:pid', deleteController)
 
 // router.get("/", async (req, res) => {
 //   try {

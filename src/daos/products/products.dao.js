@@ -5,7 +5,7 @@ import { MONGODB_CNX_STR } from "../../config/config.js";
 import { ProductsDaoMongoose } from "./mongoose/products.dao.mongoose.js";
 import { ProductsDaoFiles } from "./files/products.dao.files.js";
 import { productsSchema } from "./mongoose/products.model.mongoose.js";
-const PATH_PRODUCTS_FILES = "./files/products.dao.files.js";
+const PATH_PRODUCTS_FILES = "../../../db/products.json";
 
 let daoProducts;
 

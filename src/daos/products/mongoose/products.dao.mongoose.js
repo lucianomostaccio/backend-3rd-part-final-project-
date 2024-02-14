@@ -11,8 +11,8 @@ export class ProductsDaoMongoose {
   }
 
   async readOne(query) {
-    return await productsModel.findOne(query).lean();
-    return toPOJO(product);
+    const products = await this.productsModel.findOne(query).lean();
+    return toPOJO(products);
   }
 
   async readMany(query) {
@@ -20,7 +20,13 @@ export class ProductsDaoMongoose {
   }
 
   async updateOne(query, data) {
-    throw new Error("NOT IMPLEMENTED");
+    const updatedProduct = await this.productsModel
+      .findOneAndUpdate(query, data, { new: true })
+      .lean();
+    if (!updatedProduct) {
+      throw new Error("Product not found");
+    }
+    return toPOJO(updatedProduct);
   }
 
   async updateMany(query, data) {
@@ -28,7 +34,13 @@ export class ProductsDaoMongoose {
   }
 
   async deleteOne(query) {
-    throw new Error("NOT IMPLEMENTED");
+    const deletedProduct = await this.productsModel
+      .findOneAndDelete(query)
+      .lean();
+    if (!deletedProduct) {
+      throw new Error("Product not found");
+    }
+    return toPOJO(deletedProduct);
   }
 
   async deleteMany(query) {

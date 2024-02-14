@@ -1,6 +1,7 @@
-const mongoose = require("mongoose");
+import { Schema } from 'mongoose'
+// import { randomUUID } from "node:crypto";
 
-const ticketSchema = new mongoose.Schema({
+export const ordersSchema = new Schema({
   id: {
     type: Number,
     required: true,
@@ -25,7 +26,3 @@ const ticketSchema = new mongoose.Schema({
     required: true,
   },
 });
-
-const OrderModel = mongoose.model("Order", orderSchema);
-
-export default OrderModel;
