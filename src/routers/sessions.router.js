@@ -1,17 +1,17 @@
 //login
 import { Router } from "express";
-import { ADMIN_EMAIL, ADMIN_PASSWORD } from "../../config/config.js";
+import { ADMIN_EMAIL, ADMIN_PASSWORD } from "../config/config.js";
 import passport from "passport";
-import { onlyLoggedInRest } from "../../middlewares/authorization.js";
+import { onlyLoggedInRest } from "../middlewares/authorization.js";
 // import { usersManager } from "../../dao/models/User.js";
 // import { isValidPassword } from "../../utils/hashing.js";
 
 export const sessionsRouter = Router();
 
-sessionsRouter.post("/", passport.authenticate('login'), async (req, res) => {
-  if(!req.user) return res.status(401).json({status:"error"});
+sessionsRouter.post("/", passport.authenticate("login"), async (req, res) => {
+  if (!req.user) return res.status(401).json({ status: "error" });
   // @ts-ignore
-  req.session["user"]= {
+  req.session["user"] = {
     // @ts-ignore
     first_name: req.user.first_name,
     // @ts-ignore
@@ -21,19 +21,22 @@ sessionsRouter.post("/", passport.authenticate('login'), async (req, res) => {
     // @ts-ignore
     age: req.user.age,
     // @ts-ignore
-    role: req.user.email === ADMIN_EMAIL && req.user.password === ADMIN_PASSWORD ? "admin" : "user"
+    role:
+      req.user.email === ADMIN_EMAIL && req.user.password === ADMIN_PASSWORD
+        ? "admin"
+        : "user",
   };
 
   res.status(201).json({
     status: "success",
     payload: req.session["user"],
-    message: "Login successful"
+    message: "Login successful",
   });
-})
+});
 
-sessionsRouter.get('/current', onlyLoggedInRest, (req, res) => {
-  res.json(req.user)
-})
+sessionsRouter.get("/current", onlyLoggedInRest, (req, res) => {
+  res.json(req.user);
+});
 
 sessionsRouter.delete("/current", async (req, res) => {
   // @ts-ignore

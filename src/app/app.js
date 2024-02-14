@@ -1,7 +1,7 @@
 // server
 
 import express from "express";
-import { apiRouter } from "../routers/api/apirest.router.js";
+import { apiRouter } from "../routers/apirest.router.js";
 import { sessions } from "../middlewares/sessions.js";
 import path from "path";
 import { fileURLToPath } from "url";

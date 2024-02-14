@@ -1,13 +1,17 @@
-import { Router } from 'express'
-import { getController, postController, deleteController, putController } from '../../controllers/products.controller.js'
+import { Router } from "express";
+import {
+  getController,
+  postController,
+  deleteController,
+  putController,
+} from "../controllers/products.controller.js";
 
+export const productsRouter = Router();
 
-export const productsRouter = Router()
-
-productsRouter.get('/', getController)
-productsRouter.post('/', postController)
-productsRouter.put('/:pid', putController)
-productsRouter.delete('/:pid', deleteController)
+productsRouter.get("/", getController);
+productsRouter.post("/", postController);
+productsRouter.put("/:pid", putController);
+productsRouter.delete("/:pid", deleteController);
 
 // router.get("/", async (req, res) => {
 //   try {
@@ -29,12 +33,10 @@ productsRouter.delete('/:pid', deleteController)
 //       ],
 //     };
 
-
 //     // Realizar la búsqueda y aplicar paginación
 //     const result = await productManager.getProducts(options, searchQuery, sort);
 
 //     console.log(result.docs);
-  
 
 //     const totalPages = result.totalPages;
 //     const hasPrevPage = result.hasPrevPage;
@@ -61,7 +63,6 @@ productsRouter.delete('/:pid', deleteController)
 //     res.status(500).json({ error: "Error interno del servidor" });
 //   }
 // });
-
 
 //   //   const products = await productManager.getProducts();
 //   //   if (!isNaN(limit)) {
